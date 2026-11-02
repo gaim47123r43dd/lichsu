@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Giữa Kỳ I - Lịch Sử 12 (40 Câu Trắc Nghiệm)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header Banner Navigation -->
+    <header class="bg-indigo-900 text-white shadow-xl sticky top-0 z-30 border-b border-indigo-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-500 p-2 rounded-xl text-indigo-950 font-black shadow">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg leading-tight text-amber-300">Lịch Sử 12 - Ôn Tập Giữa Kỳ I</h1>
+                    <p class="text-xs text-indigo-200 hidden sm:block">Chủ đề: Thế giới trong và sau Chiến tranh Lạnh (Bài 1 & Bài 2)</p>
+                </div>
+            </div>
+
+            <!-- Header Controls & Timer -->
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <!-- Mode Selector -->
+                <div class="bg-indigo-950/60 p-1 rounded-lg border border-indigo-700/50 flex text-xs font-semibold">
+                    <button id="mode-exam-btn" onclick="setMode('exam')" class="px-2.5 py-1 rounded-md transition text-white bg-indigo-600 shadow">Thi thử</button>
+                    <button id="mode-practice-btn" onclick="setMode('practice')" class="px-2.5 py-1 rounded-md transition text-indigo-300 hover:text-white">Luyện tập</button>
+                </div>
+
+                <!-- Timer -->
+                <div id="header-timer" class="bg-indigo-950 border border-indigo-700 px-3 py-1.5 rounded-lg flex items-center space-x-2">
+                    <i class="fa-regular fa-clock text-amber-400 animate-pulse"></i>
+                    <span id="timer-display" class="font-mono font-bold text-sm sm:text-base text-amber-300">40:00</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button onclick="confirmSubmit()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-3 sm:px-4 py-1.5 rounded-lg transition duration-200 shadow flex items-center space-x-1.5 text-xs sm:text-sm">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Nộp Bài</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6">
+
+        <!-- Left Column: Question Screen -->
+        <div id="quiz-area" class="flex-1 flex flex-col space-y-4">
+            
+            <!-- Progress Bar Card -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-center text-xs sm:text-sm font-medium text-slate-600 mb-2">
+                    <span>Tiến độ bài làm: <strong id="progress-text" class="text-indigo-600 font-bold">0/40</strong> câu</span>
+                    <span id="lesson-badge" class="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-100">Bài 1: Liên Hợp Quốc</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                    <div id="progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Question & Answers Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 flex-1 p-5 sm:p-7 flex flex-col justify-between min-h-[420px]">
+                <div>
+                    <!-- Question Meta Header -->
+                    <div class="flex justify-between items-center gap-4 mb-5 pb-3 border-b border-slate-100">
+                        <span id="question-number" class="text-xs sm:text-sm font-extrabold uppercase px-3 py-1 bg-indigo-600 text-white rounded-lg shadow-sm">
+                            Câu 1 / 40
+                        </span>
+                        
+                        <div class="flex items-center space-x-3">
+                            <span id="practice-status" class="hidden text-xs font-bold px-2 py-1 rounded bg-amber-100 text-amber-800">Chế độ Luyện tập</span>
+                            <button id="bookmark-btn" onclick="toggleBookmark()" class="text-slate-400 hover:text-amber-500 transition-colors flex items-center space-x-1 text-xs sm:text-sm font-medium">
+                                <i class="fa-regular fa-bookmark"></i>
+                                <span>Đánh dấu</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Question Content -->
+                    <h2 id="question-text" class="text-base sm:text-lg lg:text-xl font-bold text-slate-800 leading-relaxed mb-6">
+                        Đang tải nội dung câu hỏi...
+                    </h2>
+
+                    <!-- Options Container -->
+                    <div id="options-container" class="space-y-3">
+                        <!-- Options populated via JS -->
+                    </div>
+
+                    <!-- Instant Feedback / Explanation Box -->
+                    <div id="explanation-box" class="hidden mt-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm">
+                        <div class="flex items-center font-bold text-amber-900 mb-1">
+                            <i class="fa-solid fa-lightbulb text-amber-600 mr-2"></i> Đáp án đúng chuẩn: <span id="correct-answer-letter" class="ml-1 text-indigo-900 font-black"></span>
+                        </div>
+                        <p id="explanation-text" class="text-slate-700 mt-1 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls Footer -->
+                <div class="flex items-center justify-between mt-8 pt-4 border-t border-slate-100">
+                    <button id="prev-btn" onclick="prevQuestion()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition flex items-center space-x-2 text-xs sm:text-sm">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>Câu trước</span>
+                    </button>
+                    
+                    <div class="text-xs text-slate-400 hidden sm:block">Phím tắt: dùng <strong>←</strong> <strong>→</strong> trên bàn phím</div>
+
+                    <button id="next-btn" onclick="nextQuestion()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition flex items-center space-x-2 text-xs sm:text-sm shadow-sm">
+                        <span>Câu tiếp</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Sidebar Navigation Grid -->
+        <div class="w-full lg:w-80 flex flex-col space-y-4">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3 flex items-center justify-between">
+                    <span>Ma trận 40 câu hỏi</span>
+                    <span class="text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">40 CÂU</span>
+                </h3>
+
+                <!-- Legend Guide -->
+                <div class="grid grid-cols-2 gap-2 text-xs mb-4 text-slate-600 pb-3 border-b border-slate-100">
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-md bg-slate-100 border border-slate-300 inline-block"></span>
+                        <span>Chưa chọn</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-md bg-indigo-600 inline-block"></span>
+                        <span>Đã chọn</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-md bg-amber-400 inline-block"></span>
+                        <span>Đã đánh dấu</span>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="w-3 h-3 rounded-md border-2 border-emerald-500 inline-block"></span>
+                        <span>Đang xem</span>
+                    </div>
+                </div>
+
+                <!-- 40 Question Grid -->
+                <div id="question-grid" class="grid grid-cols-5 gap-2 max-h-72 lg:max-h-none overflow-y-auto p-1">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Submit Button in sidebar for convenience -->
+                <div class="mt-6 pt-4 border-t border-slate-100">
+                    <button onclick="confirmSubmit()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl transition duration-200 shadow flex items-center justify-center space-x-2 text-sm">
+                        <i class="fa-solid fa-check-double"></i>
+                        <span>Nộp Bài & Kết Quả</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Confirm Submit -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 text-center transform transition-all scale-95 opacity-0 duration-200" id="modal-content">
+            <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Xác nhận nộp bài thi?</h3>
+            <p id="submit-summary-text" class="text-slate-600 text-sm mb-6">
+                Bạn đã hoàn thành <span id="answered-count" class="font-extrabold text-indigo-600">0</span>/40 câu hỏi.
+            </p>
+            <div class="flex space-x-3">
+                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition text-sm">
+                    Làm tiếp
+                </button>
+                <button onclick="submitQuiz()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition shadow text-sm">
+                    Xác nhận nộp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Score Results -->
+    <div id="result-modal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 sm:p-8 my-8 text-center relative border border-slate-100">
+            <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-inner" id="result-badge-bg">
+                <i id="result-icon" class="fa-solid fa-trophy"></i>
+            </div>
+            
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-1">Kết Quả Bài Làm</h2>
+            <p class="text-slate-500 text-xs sm:text-sm mb-6">Đề ôn tập Giữa Kỳ I - Lịch Sử 12 (40 Câu)</p>
+
+            <!-- Score Stats Cards -->
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="text-xs text-slate-500 block uppercase font-bold mb-1">Điểm số</span>
+                    <span id="score-grade" class="text-2xl sm:text-4xl font-black text-indigo-600">0.0</span>
+                    <span class="text-xs text-slate-400 block mt-0.5">/ 10 điểm</span>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="text-xs text-slate-500 block uppercase font-bold mb-1">Số câu đúng</span>
+                    <span id="score-correct" class="text-2xl sm:text-4xl font-black text-emerald-600">0</span>
+                    <span class="text-xs text-slate-400 block mt-0.5">/ 40 câu</span>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="text-xs text-slate-500 block uppercase font-bold mb-1">Thời gian</span>
+                    <span id="score-time" class="text-2xl sm:text-4xl font-black text-amber-600">00:00</span>
+                    <span class="text-xs text-slate-400 block mt-0.5">phút</span>
+                </div>
+            </div>
+
+            <div id="score-feedback" class="p-4 rounded-2xl bg-indigo-50 text-indigo-950 font-semibold text-sm mb-6 leading-relaxed">
+                Chúc mừng bạn đã hoàn thành bài thi!
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button onclick="reviewAnswers()" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition shadow flex items-center justify-center space-x-2 text-sm">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>Xem chi tiết từng câu</span>
+                </button>
+                <button onclick="restartQuiz()" class="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition flex items-center justify-center space-x-2 text-sm">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Thi lại từ đầu</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 text-xs py-4 text-center border-t border-slate-700 mt-auto">
+        <p>Ứng dụng Trắc nghiệm Lịch Sử 12 — Chuẩn đáp án & Nội dung theo tài liệu</p>
+    </footer>
+
+    <!-- Complete Questions Array & Logic -->
+    <script>
+        // 40 Standardized Questions with User Corrected Answers
+        const questionsData = [
+            // CÂU 1 - 17: BÀI 1 - LIÊN HỢP QUỐC
+            {
+                id: 1,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 1. Nhằm duy trì hoà bình và an ninh thế giới sau chiến tranh, Hội nghị I-an-ta (2-1945) có quyết định quan trọng nào sau đây?",
+                options: [
+                    "A. Thành lập Ban Thư kí Liên hợp quốc.",
+                    "B. Thành lập tổ chức Liên hợp quốc.",
+                    "C. Thành lập tổ chức Hội Quốc liên.",
+                    "D. Duy trì và mở rộng Hội Quốc liên."
+                ],
+                correct: 1, // B
+                explanation: "Hội nghị I-an-ta (2-1945) đã thống nhất thành lập tổ chức Liên hợp quốc nhằm duy trì hòa bình và an ninh thế giới."
+            },
+            {
+                id: 2,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 2. Từ cuối tháng 4 đến cuối tháng 6-1945, 50 nước họp tại Xan Phran-xi-xcô (Mỹ) thông qua nội dung nào sau đây?",
+                options: [
+                    "A. Hiệp định đình chiến ở Đông Dương.",
+                    "B. Kết thúc chiến tranh Triều Tiên.",
+                    "C. Xét xử tội phạm chiến tranh thế giới.",
+                    "D. Hiến chương Liên hợp quốc."
+                ],
+                correct: 3, // D
+                explanation: "Hội nghị Xan Phran-xi-xcô (4 đến 6-1945) với sự tham gia của 50 quốc gia đã thông qua Hiến chương Liên hợp quốc."
+            },
+            {
+                id: 3,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 3. “Duy trì hoà bình và an ninh thế giới; thúc đẩy quan hệ hữu nghị giữa các quốc gia dựa trên sự tôn trọng nguyên tắc bình đẳng và quyền tự quyết của các dân tộc, củng cố hoà bình thế giới” là nhiệm vụ chính của tổ chức quốc tế nào sau đây?",
+                options: [
+                    "A. Tổ chức ASEAN.",
+                    "B. Liên minh châu Âu.",
+                    "C. Liên hợp quốc.",
+                    "D. Tổ chức NATO."
+                ],
+                correct: 2, // C
+                explanation: "Đây là mục đích và nhiệm vụ chính hàng đầu được ghi rõ trong Điều 1 Hiến chương Liên hợp quốc."
+            },
+            {
+                id: 4,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 4. Một trong những cơ quan chính của Liên hợp quốc được quy định trong Hiến chương Liên hợp quốc (năm 1945) là",
+                options: [
+                    "A. Ngân hàng Thế giới.",
+                    "B. Quỹ Nhi đồng.",
+                    "C. Hội đồng Bảo an.",
+                    "D. Tổ chức Thương mại Thế giới."
+                ],
+                correct: 2, // C
+                explanation: "Hội đồng Bảo an là một trong 6 cơ quan chính quan trọng nhất của Liên hợp quốc."
+            },
+            {
+                id: 5,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 5. Liên hợp quốc được thành lập (1945) không nhằm mục tiêu nào sau đây?",
+                options: [
+                    "A. Hợp tác quốc tế giữa các nước thành viên.",
+                    "B. Duy trì nền hoà bình và an ninh trên thế giới.",
+                    "C. Phát triển quan hệ hữu nghị giữa các dân tộc.",
+                    "D. Duy trì Trật tự thế giới hai cực I-an-ta."
+                ],
+                correct: 3, // D
+                explanation: "Liên hợp quốc thành lập không nhằm mục tiêu duy trì Trật tự 2 cực I-an-ta. Trật tự hai cực là cục diện hình thành do sự thỏa thuận giữa các cường quốc."
+            },
+            {
+                id: 6,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 6. Một trong những nguyên tắc hoạt động của Liên hợp quốc được quy định trong Hiến chương Liên hợp quốc (năm 1945) là",
+                options: [
+                    "A. tôn trọng các nghĩa vụ và luật pháp quốc tế.",
+                    "B. tôn trọng quyết định của 5 nước Uỷ viên thường trực.",
+                    "C. không đưa quân đội Liên hợp quốc vào các khu vực.",
+                    "D. tôn trọng độc lập của 50 nước sáng lập Liên hợp quốc."
+                ],
+                correct: 0, // A
+                explanation: "Tôn trọng các nghĩa vụ và luật pháp quốc tế là nguyên tắc hoạt động cơ bản của Liên hợp quốc."
+            },
+            {
+                id: 7,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 7. Trong quá trình hoạt động (từ năm 1945), Liên hợp quốc đã thực hiện được vai trò quan trọng nào sau đây?",
+                options: [
+                    "A. Ngăn chặn được mọi cuộc chiến tranh ở các khu vực.",
+                    "B. Góp phần vào chấm dứt nạn khủng bố trên toàn cầu.",
+                    "C. Ngăn chặn không để xảy ra cuộc chiến tranh thế giới mới.",
+                    "D. Góp phần chấm dứt tình trạng đói nghèo ở châu Phi."
+                ],
+                correct: 2, // C
+                explanation: "Thành tựu lớn nhất của Liên hợp quốc là giữ gìn hòa bình, ngăn chặn không để bùng nổ chiến tranh thế giới mới."
+            },
+            {
+                id: 8,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 8. Bản Hiến chương được đánh giá là văn kiện quan trọng hàng đầu của tổ chức Liên hợp quốc vì lí do nào sau đây?",
+                options: [
+                    "A. Là cơ sở pháp lí để các nước tham gia Liên hợp quốc.",
+                    "B. Nêu rõ các mục đích hoạt động của Liên hợp quốc.",
+                    "C. Quy định các tổ chức, cơ chế hoạt động của Liên hợp quốc.",
+                    "D. Đề ra các nguyên tắc hoạt động của Liên hợp quốc."
+                ],
+                correct: 1, // B (Sửa theo yêu cầu)
+                explanation: "Đáp án B: Nêu rõ các mục đích hoạt động của Liên hợp quốc."
+            },
+            {
+                id: 9,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 9. Những quốc gia nào sau đây đóng vai trò quyết định, đồng thời là sáng lập viên của tổ chức Liên hợp quốc?",
+                options: [
+                    "A. Liên Xô, Mỹ và Đức.",
+                    "B. Liên Xô, Mỹ và Anh.",
+                    "C. Mỹ, Anh và Đức.",
+                    "D. Liên Xô, Anh và Ba Lan."
+                ],
+                correct: 1, // B
+                explanation: "Ba cường quốc Liên Xô, Mỹ và Anh giữ vai trò trụ cột quyết định thành lập Liên hợp quốc."
+            },
+            {
+                id: 10,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 10. Trải qua hơn 70 năm hoạt động (từ năm 1945), Liên hợp quốc đã có nhiều vai trò, đóng góp trên các lĩnh vực, nhưng không có vai trò nào sau đây?",
+                options: [
+                    "A. Góp phần thúc đẩy quá trình phi thực dân hoá ở nhiều nơi trên thế giới.",
+                    "B. Ra các văn bản, xây dựng môi trường thuận lợi thúc đẩy hợp tác quốc tế.",
+                    "C. Ngăn chặn được các cuộc đối đầu Đông - Tây và xung đột trên thế giới.",
+                    "D. Làm trung gian hoà giải chấm dứt xung đột và chiến tranh ở các khu vực."
+                ],
+                correct: 2, // C
+                explanation: "Liên hợp quốc chưa ngăn chặn tuyệt đối được sự đối đầu Đông - Tây và các xung đột diễn ra trên thế giới."
+            },
+            {
+                id: 11,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 11. Hội nghị thành lập Liên Hợp Quốc tổ chức khi:",
+                options: [
+                    "A. Chiến tranh thế giới thứ hai bùng nổ.",
+                    "B. Chiến tranh thế giới thứ hai chưa diễn ra.",
+                    "C. Chiến tranh thế giới thứ hai sắp kết thúc.",
+                    "D. Chiến tranh thế giới thứ hai đã kết thúc."
+                ],
+                correct: 2, // C
+                explanation: "Hội nghị thành lập Liên hợp quốc (từ cuối tháng 4 đến tháng 6-1945) tổ chức khi Chiến tranh thế giới thứ hai sắp kết thúc."
+            },
+            {
+                id: 12,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 12. Nội dung nào dưới đây không phải là nguyên tắc hoạt động của tổ chức Liên Hợp Quốc?",
+                options: [
+                    "A. Giải quyết các tranh chấp quốc tế bằng biện pháp hòa bình.",
+                    "B. Từ bỏ đe doạ bằng vũ lực hoặc sử dụng vũ lực quốc tế trong quan hệ quốc tế.",
+                    "C. Hợp tác phát triển có hiệu quả trong các lĩnh vực kinh tế, văn hoá, xã hội.",
+                    "D. Không can thiệp vào công việc nội bộ của các nước."
+                ],
+                correct: 2, // C
+                explanation: "Hợp tác phát triển kinh tế, văn hóa, xã hội là mục đích của Liên hợp quốc, không thuộc 5 nguyên tắc hoạt động chính."
+            },
+            {
+                id: 13,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 13. Trụ sở chính của tổ chức Liên Hợp Quốc đặt tại",
+                options: [
+                    "A. Niu Ooc (Mỹ).",
+                    "B. Pari (Pháp).",
+                    "C. Luân Đôn (Anh).",
+                    "D. La hay (Hà Lan)."
+                ],
+                correct: 0, // A
+                explanation: "Trụ sở chính của Liên Hợp Quốc đặt tại thành phố Niu Ooc (New York, Mỹ)."
+            },
+            {
+                id: 14,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 14. Cơ quan chuyên môn nào của Liên Hợp Quốc đóng góp trong việc giúp Việt Nam bảo toàn di sản văn hoá?",
+                options: [
+                    "A. UNICEF.",
+                    "B. UNESCO.",
+                    "C. FAO.",
+                    "D. WHO."
+                ],
+                correct: 1, // B
+                explanation: "UNESCO là Tổ chức Giáo dục, Khoa học và Văn hóa của Liên Hợp Quốc."
+            },
+            {
+                id: 15,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 15. Tổ chức nào sau đây không thuộc Liên Hợp Quốc?",
+                options: [
+                    "A. UNICEF.",
+                    "B. WTO.",
+                    "C. UNESCO.",
+                    "D. NATO."
+                ],
+                correct: [1, 3], // B và D đều đúng (Sửa theo yêu cầu)
+                explanation: "Cả B (WTO - Tổ chức Thương mại Thế giới) và D (NATO - Khối quân sự Bắc Đại Tây Dương) đều không thuộc hệ thống Liên Hợp Quốc."
+            },
+            {
+                id: 16,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 16. Cơ quan nào của Liên Hợp Quốc có vai trò trọng yếu trong việc duy trì hòa bình, an ninh thế giới?",
+                options: [
+                    "A. Tòa án Quốc tế.",
+                    "B. Hội đồng Bảo an.",
+                    "C. Đại hội đồng.",
+                    "D. Ban Thư kí."
+                ],
+                correct: 1, // B
+                explanation: "Hội đồng Bảo an giữ vai trò trọng yếu nhất trong việc duy trì hòa bình và an ninh thế giới."
+            },
+            {
+                id: 17,
+                lesson: "Bài 1: Liên Hợp Quốc",
+                question: "Câu 17. Trong bối cảnh thế giới phân chia thành “hai cực”, \"hai phe\" (1945 - 1991), nguyên tắc hoạt động nào sau đây đang được xem là có ý nghĩa thực tiễn đối với Liên hợp quốc?",
+                options: [
+                    "A. Chung sống hoà bình và cần có sự nhất trí của 5 cường quốc.",
+                    "B. Ra nghị quyết yêu cầu các nước dừng việc chạy đua vũ trang.",
+                    "C. Không can thiệp vào công việc nội bộ của các cường quốc.",
+                    "D. Bình đẳng chủ quyền và quyền tự quyết của các cường quốc."
+                ],
+                correct: 0, // A
+                explanation: "Sự nhất trí giữa 5 nước Ủy viên thường trực Hội đồng Bảo an đảm bảo việc duy trì hòa bình giữa các siêu cường."
+            },
+
+            // CÂU 18 - 40: BÀI 2 - TRẬT TỰ THẾ GIỚI TRONG CHIẾN TRANH LẠNH
+            {
+                id: 18,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 18. Trật tự thế giới hai cực I-an-ta được hình thành bắt nguồn từ những quyết định của",
+                options: [
+                    "A. Liên Xô và Mỹ ở Hội nghị Xan Phran-xi-xcô (1945).",
+                    "B. Hội nghị tam cường và Hội nghị Pốt-xđam (1945).",
+                    "C. Liên Xô, Mỹ, Anh trong Hội nghị Tê-hê-ran (1943).",
+                    "D. Hội nghị Tê-hê-ran (1943) và Hội nghị I-an-ta (1945)."
+                ],
+                correct: 3, // D (Sửa theo yêu cầu)
+                explanation: "Đáp án D: Hội nghị Tê-hê-ran (1943) và Hội nghị I-an-ta (1945)."
+            },
+            {
+                id: 19,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 19. Nội dung nào sau đây là một trong những quyết định của Hội nghị I-an-ta (2-1945)?",
+                options: [
+                    "A. Tiêu diệt tận gốc chủ nghĩa phát xít Đức và chủ nghĩa quân phiệt Nhật Bản.",
+                    "B. Xây dựng một trật tự thế giới mới nhằm giải quyết dứt điểm các vấn đề hậu chiến tranh.",
+                    "C. Đồng ý thành lập tổ chức Hội Quốc liên để duy trì hoà bình và an ninh thế giới.",
+                    "D. Thoả thuận việc phân chia phạm vi ảnh hưởng của Mỹ và Liên Xô ở châu Phi."
+                ],
+                correct: 0, // A
+                explanation: "Mục tiêu thống nhất của Hội nghị Ianta là tiêu diệt tận gốc chủ nghĩa phát xít Đức và chủ nghĩa quân phiệt Nhật Bản."
+            },
+            {
+                id: 20,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 20. Theo thoả thuận của các cường quốc tại Hội nghị I-an-ta (2-1945), địa bàn nào sau đây ở châu Âu sẽ thuộc phạm vi ảnh hưởng của Mỹ?",
+                options: [
+                    "A. Béc-lin.",
+                    "B. Đông Đức.",
+                    "C. Đông Âu.",
+                    "D. Tây Âu."
+                ],
+                correct: 3, // D
+                explanation: "Vùng Tây Âu thuộc phạm vi ảnh hưởng của Mỹ và các nước tư bản phương Tây."
+            },
+            {
+                id: 21,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 21. Theo quyết định của các cường quốc tại Hội nghị I-an-ta (2-1945), vùng ảnh hưởng của Liên Xô ở châu Á sẽ là",
+                options: [
+                    "A. phía bắc vĩ tuyến 38 trên bán đảo Triều Tiên.",
+                    "B. phía nam vĩ tuyến 38 trên bán đảo Triều Tiên.",
+                    "C. khu vực Tây Á, Nam Á và Đông Nam Á.",
+                    "D. khu vực Trung Đông và bán đảo Triều Tiên."
+                ],
+                correct: 0, // A
+                explanation: "Tại châu Á, Liên Xô quản lý phía Bắc vĩ tuyến 38 trên bán đảo Triều Tiên."
+            },
+            {
+                id: 22,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 22. Quyết định nào sau đây của Hội nghị I-an-ta (2-1945) tạo nên những bất lợi cho cách mạng Việt Nam trong những năm 1945-1946?",
+                options: [
+                    "A. Quân Anh cùng với quân Pháp làm nhiệm vụ giải giáp quân đội Nhật.",
+                    "B. Quân Anh và quân Trung Hoa Dân quốc vào kiểm soát Đông Dương.",
+                    "C. Liên Xô có phạm vi ảnh hưởng và kiểm soát ở các nước Đông Dương.",
+                    "D. Đông Nam Á vẫn thuộc phạm vi ảnh hưởng của các nước phương Tây."
+                ],
+                correct: 1, // B (Sửa theo yêu cầu)
+                explanation: "Đáp án B: Quân Anh và quân Trung Hoa Dân quốc vào kiểm soát Đông Dương."
+            },
+            {
+                id: 23,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 23. Nhận xét nào sau đây là tác động của Hội nghị I-an-ta và Hội nghị Pốt-xđam (1945) đối với tình hình quốc tế?",
+                options: [
+                    "A. Tạo nên một trật tự thế giới mới giữa các nước thắng trận và bại trận.",
+                    "B. Giải quyết được mâu thuẫn về vấn đề thị trường cho các cường quốc.",
+                    "C. Tạo nên khuôn khổ của trật tự thế giới - trật tự nhất siêu, nhiều cực.",
+                    "D. Làm thay đổi sâu sắc quan hệ quốc tế, đặc biệt là quan hệ Xô - Mỹ."
+                ],
+                correct: 3, // D
+                explanation: "Các thỏa thuận Ianta và Pốt-xđam làm thay đổi căn bản cục diện quan hệ quốc tế và quan hệ Xô - Mỹ."
+            },
+            {
+                id: 24,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 24. Nội dung nào sau đây là đặc điểm nổi bật của trật tự thế giới mới được hình thành sau Chiến tranh thế giới thứ hai?",
+                options: [
+                    "A. Một trật tự thế giới được thiết lập trên cơ sở nước thắng trận thống trị nước bại trận.",
+                    "B. Xác lập trật tự thế giới mới của các nước tư bản chủ nghĩa do Mỹ đứng đầu, chi phối.",
+                    "C. Hình thành trật tự thế giới hai cực đối lập: cực Liên Xô và cực Mỹ đứng đầu mỗi bên.",
+                    "D. Trật tự thế giới được thiết lập trên cơ sở các nước thắng trận đoàn kết, đồng thuận."
+                ],
+                correct: 2, // C
+                explanation: "Hình thành hai cực đối lập rõ rệt: Cực Liên Xô (Xã hội chủ nghĩa) và Cực Mỹ (Tư bản chủ nghĩa)."
+            },
+            {
+                id: 25,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 25. Những quyết định của Hội nghị I-an-ta cùng sự thoả thuận của Liên Xô, Mỹ và Anh ở Hội nghị Pốt-xđam (1945) đã trở thành khuôn khổ của một trật tự thế giới mới, vì",
+                options: [
+                    "A. các nước tham chiến được hưởng nhiều quyền lợi sau chiến tranh.",
+                    "B. khép lại trật tự thế giới cũ và xác lập trật tự thế giới “hai cực\" đối lập.",
+                    "C. mở đầu quá trình giải thể chủ nghĩa thực dân mới ở các thuộc địa.",
+                    "D. đã phân chia xong phạm vi ảnh hưởng giữa các nước thắng trận."
+                ],
+                correct: 1, // B
+                explanation: "Quyết định của các hội nghị này đã xác lập trật tự thế giới 2 cực đối lập hoàn toàn mới."
+            },
+            {
+                id: 26,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 26. Nội dung nào sau đây là nhân tố hàng đầu chi phối toàn bộ đời sống chính trị thế giới trong phần lớn thời gian nửa sau thế kỉ XX?",
+                options: [
+                    "A. Cục diện trật tự hai cực, hai phe: tư bản chủ nghĩa và xã hội chủ nghĩa.",
+                    "B. Hai hệ thống xã hội đối lập ra đời: tư bản chủ nghĩa và xã hội chủ nghĩa.",
+                    "C. Xu hướng liên kết khu vực và xu thế toàn cầu hoá diễn ra mạnh mẽ.",
+                    "D. Các cuộc “chiến tranh nóng” ở châu Á liên tiếp diễn ra không có hồi kết."
+                ],
+                correct: 1, // B (Sửa theo yêu cầu)
+                explanation: "Đáp án B: Hai hệ thống xã hội đối lập ra đời: tư bản chủ nghĩa và xã hội chủ nghĩa."
+            },
+            {
+                id: 27,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 27. Quan hệ Mỹ - Liên Xô trong và sau Chiến tranh thế giới thứ hai đã chuyển biến từ",
+                options: [
+                    "A. đối đầu sang đối thoại.",
+                    "B. đối đầu sang thoả hiệp.",
+                    "C. đồng minh sang đối đầu.",
+                    "D. đồng minh sang đối tác."
+                ],
+                correct: 2, // C
+                explanation: "Từ chỗ là đồng minh chống phát xít trong CTTG2, Mỹ và Liên Xô nhanh chóng chuyển sang đối đầu gay gắt."
+            },
+            {
+                id: 28,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 28. Nước nào sau đây không có mặt ở Hội nghị cấp cao Ianta (2/1945)?",
+                options: [
+                    "A. Anh.",
+                    "B. Mĩ.",
+                    "C. Pháp.",
+                    "D. Liên Xô."
+                ],
+                correct: 2, // C
+                explanation: "Hội nghị Ianta chỉ gồm nguyên thủ 3 nước: Liên Xô, Mỹ và Anh (Pháp không tham dự)."
+            },
+            {
+                id: 29,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 29. Những quyết định của Hội nghị Ianta trở thành khuôn khổ của trật tự thế giới mới:",
+                options: [
+                    "A. Trật tự Vécxay - Oasinhton.",
+                    "B. Trật tự đa cực.",
+                    "C. Trật tự đơn cực.",
+                    "D. Trật tự 2 cực Ianta."
+                ],
+                correct: 3, // D
+                explanation: "Khuôn khổ trật tự thế giới hình thành sau chiến tranh gọi là Trật tự 2 cực Ianta."
+            },
+            {
+                id: 30,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 30. Tổng thống nào của nước Mỹ công bố phát động Chiến tranh lạnh?",
+                options: [
+                    "A. Ru-dơ-ven.",
+                    "B. Tru-man.",
+                    "C. Ai-xen-hao.",
+                    "D. Ken-nơ-di."
+                ],
+                correct: 1, // B
+                explanation: "Tổng thống Mỹ Truman phát biểu tại Quốc hội ngày 12-3-1947 chính thức phát động Chiến tranh Lạnh."
+            },
+            {
+                id: 31,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 31. Nội dung nào sau đây không phải là tác động của Trật tự thế giới hai cực I-an-ta?",
+                options: [
+                    "A. Cuộc chiến tranh của Mỹ ở Việt Nam.",
+                    "B. Sự xuất hiện của chủ nghĩa khủng bố.",
+                    "C. Chiến tranh giữa hai miền Triều Tiên.",
+                    "D. Bức tường Béc-lin chia đôi nước Đức."
+                ],
+                correct: 1, // B
+                explanation: "Chủ nghĩa khủng bố toàn cầu bùng phát mạnh giai đoạn sau Chiến tranh Lạnh."
+            },
+            {
+                id: 32,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 32. Cuộc chiến tranh nào sau đây đã trở thành cuộc chiến tranh cục bộ lớn nhất phản ánh mâu thuẫn giữa hai cực, hai phe - tư bản chủ nghĩa và xã hội chủ nghĩa?",
+                options: [
+                    "A. Cuộc chiến tranh trên bán đảo Triều Tiên (1950 - 1953).",
+                    "B. Nội chiến Quốc - Cộng ở Trung Quốc (1946 - 1949).",
+                    "C. Chiến tranh của Pháp ở Đông Dương (1945 - 1954).",
+                    "D. Cuộc chiến tranh của Mỹ ở Việt Nam (1954 - 1975)."
+                ],
+                correct: 3, // D
+                explanation: "Chiến tranh xâm lược Việt Nam của Mỹ (1954 - 1975) là cuộc chiến tranh cục bộ lớn nhất phản ánh mâu thuẫn 2 phe."
+            },
+            {
+                id: 33,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 33. Kế hoạch Mác-san (1947) của Mỹ và Hội đồng tương trợ kinh tế (SEV) do Liên Xô và các nước Đông Âu thành lập (1949) là một trong những biểu hiện về sự đối đầu của hai cực thế giới I-an-ta trên lĩnh vực",
+                options: [
+                    "A. quân sự.",
+                    "B. văn hoá.",
+                    "C. pháp lí.",
+                    "D. kinh tế."
+                ],
+                correct: 3, // D
+                explanation: "Marshall Plan và SEV là biểu hiện đối đầu về mặt kinh tế giữa 2 khối."
+            },
+            {
+                id: 34,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 34. Trong giai đoạn từ năm 1945 đến đầu những năm 70 của thế kỉ XX, Trật tự thế giới hai cực I-an-ta có biểu hiện nào sau đây?",
+                options: [
+                    "A. Từ đối kháng chuyển sang đối đầu giữa hai hệ thống xã hội đối lập.",
+                    "B. Xác lập và phát triển nhanh với sự đối đầu diễn ra trên nhiều lĩnh vực.",
+                    "C. Phát triển mạnh và dẫn tới các cuộc chiến tranh cục bộ giữa Liên Xô - Mỹ.",
+                    "D. Từ đối đầu căng thẳng chuyển sang hoà dịu và hoà hoãn Đông - Tây."
+                ],
+                correct: 1, // B
+                explanation: "Trật tự 2 cực Ianta xác lập nhanh chóng và gia tăng đối đầu gay gắt trên nhiều lĩnh vực."
+            },
+            {
+                id: 35,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 35. Quan hệ giữa hai nước Liên Xô và Mỹ chuyển sang căng thẳng sau sự kiện nào sau đây?",
+                options: [
+                    "A. Thông điệp của Tổng thống Mỹ To-ru-man (12-3-1947).",
+                    "B. Những quyết định của Hội nghị Pốt-xđam (1945).",
+                    "C. Các điều khoản trong Hiệp định Giơ-ne-vơ (1954).",
+                    "D. Các điều khoản trong Hiệp định Pa-ri về Việt Nam (1973)."
+                ],
+                correct: 0, // A
+                explanation: "Thông điệp của Tổng thống Truman (12-3-1947) mở đầu sự căng thẳng chính thức của Chiến tranh Lạnh."
+            },
+            {
+                id: 36,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 36. Từ đầu những năm 70 của thế kỉ XX, quan hệ Mỹ - Liên Xô chuyển dần sang hoà dịu, sau đó kết thúc Chiến tranh lạnh (1989) là do",
+                options: [
+                    "A. chịu nhiều tốn kém và bị suy giảm thế mạnh về nhiều mặt.",
+                    "B. xu thế liên kết khu vực và toàn cầu hoá diễn ra mạnh mẽ.",
+                    "C. quá trình mở rộng không ngừng của Liên minh châu Âu (EU).",
+                    "D. trật tự nhất siêu, nhiều cường đang trong quá trình mở rộng."
+                ],
+                correct: 0, // A
+                explanation: "Cuộc chạy đua vũ trang tốn kém làm suy giảm thế mạnh của cả Liên Xô lẫn Mỹ."
+            },
+            {
+                id: 37,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 37. Trong thời gian tồn tại của trật tự thế giới hai cực, hai phe, sự kiện nào sau đây của Việt Nam không chịu sự tác động của xu thế hoà hoãn Đông - Tây?",
+                options: [
+                    "A. Đàm phán và kí kết Hiệp định Pa-ri (1973).",
+                    "B. Giải quyết vấn đề Cam-pu-chia (1989 - 1991).",
+                    "C. Cuộc Tổng tiến công và nổi dậy Xuân 1975.",
+                    "D. Công cuộc Đổi mới đất nước (từ năm 1986)."
+                ],
+                correct: 2, // C
+                explanation: "Cuộc Tổng tiến công và nổi dậy Xuân 1975 hoàn toàn là quyết tâm chủ động chiến lược độc lập tự chủ của nhân dân Việt Nam."
+            },
+            {
+                id: 38,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 38. Nội dung nào sau đây là yếu tố quyết định dẫn đến Trật tự thế giới hai cực I-an-ta sụp đổ?",
+                options: [
+                    "A. Tác động của cuộc Cách mạng công nghiệp lần thứ ba.",
+                    "B. Sự vươn lên mạnh mẽ của các nước và tổ chức quốc tế.",
+                    "C. Liên Xô và Mỹ bị suy giảm vị thế do phải chạy đua vũ trang.",
+                    "D. Chủ nghĩa xã hội ở Liên Xô lâm vào khủng hoảng và tan rã."
+                ],
+                correct: 3, // D
+                explanation: "Sự sụp đổ và tan rã của Liên Xô năm 1991 kéo theo sự sụp đổ hoàn toàn của Trật tự 2 cực Ianta."
+            },
+            {
+                id: 39,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 39. Trật tự thế giới hai cực I-an-ta sụp đổ (1991) có tác động nào sau đây đến quốc tế?",
+                options: [
+                    "A. Mở rộng quan hệ quốc tế, thúc đẩy xu thế toàn cầu hoá.",
+                    "B. Mỹ chuyển sang ủng hộ xu thế đa cực, nhiều trung tâm.",
+                    "C. Đưa tới sự ra đời của Hiệp hội các quốc gia Đông Nam Á.",
+                    "D. Trung Quốc đã vươn lên trở thành nền kinh tế số 1 thế giới."
+                ],
+                correct: 0, // A
+                explanation: "Sự sụp đổ của trật tự 2 cực giúp mở rộng quan hệ quốc tế và đẩy nhanh xu thế toàn cầu hóa."
+            },
+            {
+                id: 40,
+                lesson: "Bài 2: Trật Tự Thế Giới Trong Chiến Tranh Lạnh",
+                question: "Câu 40. Nội dung nào sau đây phản ánh đúng tác động của sự sụp đổ Trật tự thế giới hai cực I-an-ta (1991) đến các quốc gia trên thế giới?",
+                options: [
+                    "A. Mỹ vươn lên thiết lập trật tự thế giới “đơn cực” do Mỹ làm bá chủ.",
+                    "B. Một số cường quốc có vị trí ngày càng cao trong quan hệ quốc tế.",
+                    "C. Các nước tư bản chủ nghĩa và xã hội chủ nghĩa xung đột gay gắt.",
+                    "D. Các quốc gia chạy đua vũ trang để có vị trí trong trật tự thế giới mới."
+                ],
+                correct: 1, // B
+                explanation: "Sau khi Trật tự 2 cực sụp đổ, xu hướng đa cực phát triển mạnh, nhiều cường quốc nâng cao vị thế quốc tế."
+            }
+        ];
+
+        // Global State Variables
+        let currentIndex = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+        let bookmarked = new Array(questionsData.length).fill(false);
+        let isSubmitted = false;
+        let mode = 'exam'; // 'exam' or 'practice'
+        let timeRemaining = 40 * 60; // 40 minutes in seconds
+        let timerInterval = null;
+
+        // Initialize Application
+        window.onload = function() {
+            renderGrid();
+            loadQuestion(0);
+            startTimer();
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') prevQuestion();
+                else if (e.key === 'ArrowRight') nextQuestion();
+            });
+        };
+
+        // Switch modes: Practice vs Exam
+        function setMode(newMode) {
+            mode = newMode;
+            const examBtn = document.getElementById('mode-exam-btn');
+            const practiceBtn = document.getElementById('mode-practice-btn');
+            const statusTag = document.getElementById('practice-status');
+
+            if (mode === 'exam') {
+                examBtn.className = "px-2.5 py-1 rounded-md transition text-white bg-indigo-600 shadow font-bold";
+                practiceBtn.className = "px-2.5 py-1 rounded-md transition text-indigo-300 hover:text-white font-medium";
+                statusTag.classList.add('hidden');
+            } else {
+                practiceBtn.className = "px-2.5 py-1 rounded-md transition text-white bg-amber-500 shadow font-bold";
+                examBtn.className = "px-2.5 py-1 rounded-md transition text-indigo-300 hover:text-white font-medium";
+                statusTag.classList.remove('hidden');
+            }
+            loadQuestion(currentIndex);
+        }
+
+        // Timer Logic
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Đã hết thời gian làm bài! Hệ thống sẽ tự động nộp bài.');
+                    submitQuiz();
+                } else {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const min = Math.floor(timeRemaining / 60);
+            const sec = timeRemaining % 60;
+            document.getElementById('timer-display').innerText = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        // Render 40 Question Grid Navigator
+        function renderGrid() {
+            const gridContainer = document.getElementById('question-grid');
+            gridContainer.innerHTML = '';
+
+            questionsData.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.id = `grid-item-${idx}`;
+                btn.setAttribute('onclick', `jumpToQuestion(${idx})`);
+                btn.className = getGridItemClass(idx);
+                btn.innerText = idx + 1;
+                gridContainer.appendChild(btn);
+            });
+            updateProgress();
+        }
+
+        function getGridItemClass(idx) {
+            let base = "h-9 w-full rounded-xl text-xs font-bold transition flex items-center justify-center relative shadow-sm ";
+            
+            if (idx === currentIndex) {
+                base += "border-2 border-emerald-500 ring-2 ring-emerald-200 ";
+            }
+
+            if (isSubmitted) {
+                const isCorrect = Array.isArray(questionsData[idx].correct) 
+                    ? questionsData[idx].correct.includes(userAnswers[idx])
+                    : userAnswers[idx] === questionsData[idx].correct;
+
+                if (isCorrect) {
+                    return base + "bg-emerald-500 text-white";
+                } else if (userAnswers[idx] !== null) {
+                    return base + "bg-rose-500 text-white";
+                } else {
+                    return base + "bg-slate-200 text-slate-600";
+                }
+            }
+
+            if (userAnswers[idx] !== null) {
+                return base + "bg-indigo-600 text-white font-extrabold";
+            } else if (bookmarked[idx]) {
+                return base + "bg-amber-400 text-indigo-950 font-black";
+            } else {
+                return base + "bg-slate-100 hover:bg-slate-200 text-slate-700";
+            }
+        }
+
+        function updateGridStatus() {
+            questionsData.forEach((_, idx) => {
+                const el = document.getElementById(`grid-item-${idx}`);
+                if (el) el.className = getGridItemClass(idx);
+            });
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            document.getElementById('progress-text').innerText = `${answeredCount}/40`;
+            document.getElementById('progress-bar').style.width = `${(answeredCount / 40) * 100}%`;
+        }
+
+        // Load Question details onto screen
+        function loadQuestion(index) {
+            currentIndex = index;
+            const q = questionsData[index];
+
+            document.getElementById('question-number').innerText = `Câu ${index + 1} / 40`;
+            document.getElementById('lesson-badge').innerText = q.lesson;
+            document.getElementById('question-text').innerText = q.question;
+
+            // Bookmark button UI
+            const bmBtn = document.getElementById('bookmark-btn');
+            if (bookmarked[index]) {
+                bmBtn.innerHTML = `<i class="fa-solid fa-bookmark text-amber-500"></i><span class="text-amber-600 font-bold">Đã đánh dấu</span>`;
+            } else {
+                bmBtn.innerHTML = `<i class="fa-regular fa-bookmark"></i><span>Đánh dấu</span>`;
+            }
+
+            // Render Options
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            const showAnswerNow = isSubmitted || (mode === 'practice' && userAnswers[index] !== null);
+
+            q.options.forEach((optText, optIdx) => {
+                const optBtn = document.createElement('div');
+                optBtn.setAttribute('onclick', `selectOption(${optIdx})`);
+                
+                let optionStyle = "p-4 rounded-xl border border-slate-200 cursor-pointer transition flex items-start space-x-3 text-sm sm:text-base ";
+
+                const isCorrectOpt = Array.isArray(q.correct) ? q.correct.includes(optIdx) : (optIdx === q.correct);
+
+                if (showAnswerNow) {
+                    if (isCorrectOpt) {
+                        optionStyle += "bg-emerald-50 border-emerald-500 text-emerald-900 font-bold shadow-sm";
+                    } else if (userAnswers[index] === optIdx) {
+                        optionStyle += "bg-rose-50 border-rose-500 text-rose-900 font-medium";
+                    } else {
+                        optionStyle += "bg-slate-50 border-slate-200 text-slate-400 opacity-60";
+                    }
+                } else {
+                    if (userAnswers[index] === optIdx) {
+                        optionStyle += "bg-indigo-50 border-indigo-600 text-indigo-900 font-bold shadow-sm ring-1 ring-indigo-500";
+                    } else {
+                        optionStyle += "bg-white hover:bg-slate-50 border-slate-200 text-slate-700";
+                    }
+                }
+
+                optBtn.className = optionStyle;
+
+                // Option Circle Badge (A, B, C, D)
+                const letter = String.fromCharCode(65 + optIdx);
+                let badgeClass = "w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold flex-shrink-0 mt-0.5 ";
+                
+                if (showAnswerNow) {
+                    if (isCorrectOpt) badgeClass += "bg-emerald-600 text-white";
+                    else if (userAnswers[index] === optIdx) badgeClass += "bg-rose-600 text-white";
+                    else badgeClass += "bg-slate-200 text-slate-500";
+                } else {
+                    if (userAnswers[index] === optIdx) badgeClass += "bg-indigo-600 text-white";
+                    else badgeClass += "bg-slate-100 text-slate-600";
+                }
+
+                optBtn.innerHTML = `
+                    <span class="${badgeClass}">${letter}</span>
+                    <span class="leading-relaxed flex-1">${optText.substring(3)}</span>
+                `;
+
+                container.appendChild(optBtn);
+            });
+
+            // Prev / Next button state
+            document.getElementById('prev-btn').disabled = (index === 0);
+            document.getElementById('prev-btn').style.opacity = (index === 0) ? '0.5' : '1';
+            
+            const nextBtn = document.getElementById('next-btn');
+            if (index === questionsData.length - 1) {
+                nextBtn.innerHTML = `<span>Nộp Bài</span> <i class="fa-solid fa-check"></i>`;
+                nextBtn.className = "px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition flex items-center space-x-2 text-xs sm:text-sm shadow-sm";
+            } else {
+                nextBtn.innerHTML = `<span>Câu tiếp</span> <i class="fa-solid fa-chevron-right"></i>`;
+                nextBtn.className = "px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition flex items-center space-x-2 text-xs sm:text-sm shadow-sm";
+            }
+
+            // Explanation box logic
+            const expBox = document.getElementById('explanation-box');
+            if (showAnswerNow) {
+                expBox.classList.remove('hidden');
+                const correctDisplay = Array.isArray(q.correct) 
+                    ? q.correct.map(i => String.fromCharCode(65 + i)).join(" hoặc ") 
+                    : String.fromCharCode(65 + q.correct);
+
+                document.getElementById('correct-answer-letter').innerText = correctDisplay;
+                document.getElementById('explanation-text').innerText = q.explanation;
+            } else {
+                expBox.classList.add('hidden');
+            }
+
+            updateGridStatus();
+        }
+
+        // Option selection handler
+        function selectOption(optionIndex) {
+            if (isSubmitted) return; // Locked after submitting
+            userAnswers[currentIndex] = optionIndex;
+            loadQuestion(currentIndex);
+        }
+
+        // Bookmark toggle
+        function toggleBookmark() {
+            bookmarked[currentIndex] = !bookmarked[currentIndex];
+            loadQuestion(currentIndex);
+        }
+
+        // Question Navigation
+        function jumpToQuestion(idx) {
+            loadQuestion(idx);
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) loadQuestion(currentIndex - 1);
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questionsData.length - 1) {
+                loadQuestion(currentIndex + 1);
+            } else {
+                confirmSubmit();
+            }
+        }
+
+        // Submission Modal & Logic
+        function confirmSubmit() {
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            document.getElementById('answered-count').innerText = answeredCount;
+            
+            const modal = document.getElementById('confirm-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('confirm-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function submitQuiz() {
+            closeModal();
+            clearInterval(timerInterval);
+            isSubmitted = true;
+
+            // Score Calculation
+            let correctNum = 0;
+            userAnswers.forEach((ans, idx) => {
+                const targetCorrect = questionsData[idx].correct;
+                if (Array.isArray(targetCorrect)) {
+                    if (targetCorrect.includes(ans)) correctNum++;
+                } else {
+                    if (ans === targetCorrect) correctNum++;
+                }
+            });
+
+            const score10 = ((correctNum / questionsData.length) * 10).toFixed(1);
+            const timeSpentSec = (40 * 60) - timeRemaining;
+            const spentMin = Math.floor(timeSpentSec / 60);
+            const spentSec = timeSpentSec % 60;
+            const timeFormatted = `${spentMin}:${spentSec.toString().padStart(2, '0')}`;
+
+            // Populate Results UI
+            document.getElementById('score-grade').innerText = score10;
+            document.getElementById('score-correct').innerText = correctNum;
+            document.getElementById('score-time').innerText = timeFormatted;
+
+            const feedback = document.getElementById('score-feedback');
+            const badgeBg = document.getElementById('result-badge-bg');
+            const icon = document.getElementById('result-icon');
+
+            if (score10 >= 8.5) {
+                feedback.innerHTML = "🎉 <strong>Xuất sắc!</strong> Bạn nắm vững toàn bộ kiến thức Giữa Kỳ I Lịch Sử 12!";
+                badgeBg.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl bg-amber-100 text-amber-600 shadow-sm";
+                icon.className = "fa-solid fa-trophy text-amber-500";
+            } else if (score10 >= 6.5) {
+                feedback.innerHTML = "👏 <strong>Khá tốt!</strong> Bạn có nền tảng vững, hãy xem lại các câu chưa chính xác.";
+                badgeBg.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl bg-indigo-100 text-indigo-600 shadow-sm";
+                icon.className = "fa-solid fa-medal text-indigo-600";
+            } else {
+                feedback.innerHTML = "💪 <strong>Cần cố gắng thêm!</strong> Ôn lại lý thuyết Bài 1 & Bài 2 để đạt điểm cao hơn nhé.";
+                badgeBg.className = "w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl bg-slate-100 text-slate-600 shadow-sm";
+                icon.className = "fa-solid fa-book-open text-slate-600";
+            }
+
+            // Display Results Modal
+            document.getElementById('result-modal').classList.remove('hidden');
+
+            // Refresh view
+            loadQuestion(currentIndex);
+        }
+
+        function reviewAnswers() {
+            document.getElementById('result-modal').classList.add('hidden');
+            loadQuestion(0);
+        }
+
+        function restartQuiz() {
+            document.getElementById('result-modal').classList.add('hidden');
+            userAnswers = new Array(questionsData.length).fill(null);
+            bookmarked = new Array(questionsData.length).fill(false);
+            isSubmitted = false;
+            timeRemaining = 40 * 60;
+            
+            clearInterval(timerInterval);
+            startTimer();
+            renderGrid();
+            loadQuestion(0);
+        }
+    </script>
+</body>
+</html>
